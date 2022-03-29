@@ -32,14 +32,13 @@ formEl.addEventListener("submit", (e) => {
 			owner,
 			status,
 		});
-		count++;
-		lastTh.innerText = "Completed tasks : " + count;
+		completedTasksCount(status);
+		clearForm();
 	}
 });
 
 formEl.addEventListener("reset", (e) => {
 	e.preventDefault();
-	clearForm();
 });
 
 function clearForm() {
@@ -85,11 +84,11 @@ statusEl.addEventListener("blur", (e) => {
 
 // TABLE
 
-
-function changeLastTr(){
-	let count = 1;
-	lastTh.innerText = "Completed tasks : " + count;
-	count++;
+function completedTasksCount(statusElValue){
+	if(statusElValue === "completed"){
+		count++;
+		lastTh.innerText = "Completed tasks : " + count;
+	}
 }
 
 function createTableItem(obj) {
@@ -99,6 +98,7 @@ function createTableItem(obj) {
 		tdEl.innerText = value;
 		trEl.appendChild(tdEl);
 	});
+	
 	const removeButtonEl = createRemoveButton();
 	trEl.appendChild(removeButtonEl);
 	return trEl;
@@ -119,9 +119,11 @@ function createRemoveButton() {
 	function handleClickRemoveButton(e) {
 		buttonEl.removeEventListener("click", handleClickRemoveButton);
 		const thisButtonTr = e.target.closest('tr');
-		tableBodyEl.removeChild(thisButtonTr);
-		count--;
-		lastTh.innerText = "Completed tasks : " + count;
+		tableBodyEl.removeChild(thisButtonTr); 	   	
+		if(thisButtonTr.childNodes[thisButtonTr.childNodes.length - 2].innerText === "completed"){
+			count--;
+			lastTh.innerText = "Completed tasks : " + count;
+		}
 	}
 
 	buttonEl.addEventListener("click", handleClickRemoveButton);
