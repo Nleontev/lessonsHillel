@@ -103,13 +103,12 @@ let forSquare = {
 	__proto__: shape,
 	_square : 0,
 	get square(){
-		return this._square;
+		return this.width * this.height;
 	},
 	set square ([x, y]){
 		if(arguments[0].length === 2 && arguments[0][0] === arguments[0][1]){
-			x = this.width;
-			y = this.height;
-			this._square = x*y;
+			this.width = x;
+			this.height = y;
 		}else{
 			throw new Error("Введено невереное количество аргументов либо аргументы не равны!");
 		}
@@ -121,7 +120,7 @@ let forRectangle = {
 	__proto__: shape,
 	_square : 0,
 	get square(){
-		return this._square;
+		return this.width * this.height;
 	},
 	set square ([x, y]){
 		if(arguments[0].length != 2){
@@ -129,7 +128,6 @@ let forRectangle = {
 		}
 		this.width = x;
 		this.height = y;
-		this._square = x*y;
 	},
 }
 
@@ -137,14 +135,13 @@ let forCircle = {
 	__proto__: shape,
 	_square : 0,
 	get square(){
-		return this._square;
+		const radius = (this.width/2)^2;
+		return 2 * Math.PI * radius;
 	},
 	set square ([x, y]){
 		if(arguments[0].length === 2 && arguments[0][0] === arguments[0][1]){
 			this.width = x;
 			this.height = y;
-			const radius = (x/2)^2;
-			this._square = 2 * Math.PI * radius;
 		}else{
 			throw new Error("Введено невереное количество аргументов либо аргументы не равны!");
 		}
@@ -152,22 +149,20 @@ let forCircle = {
 	},
 }
 
-function Square() {
-	this.__proto__ = forSquare;
-};
-function Rectangle() {
-	this.__proto__ = forRectangle;
-};
-function Circle() {
-	this.__proto__ = forCircle;
-};
+function Square() {};
+function Rectangle() {};
+function Circle() {};
+
+Square.prototype = forSquare;
+Rectangle.prototype = forRectangle;
+Circle.prototype = forCircle;
 
 const circle = new Circle();
 const square = new Square();
 const rectangle = new Rectangle();
 
 circle.square = ([30,30]);
-square.square = ([square.width,square.height]);
+square.square = ([5, 5]);
 rectangle.square = ([12, 30]);
 
 console.log(`Площадь круга: ${circle.square}`);
