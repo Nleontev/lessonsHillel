@@ -96,56 +96,44 @@
 
 let shape = {
 	width: 100,
-	height: 100
-};
-
-let forSquare = {
-	__proto__: shape,
-	_square : 0,
-	get square(){
-		return this.width * this.height;
-	},
-	set square ([x, y]){
-		if(arguments[0].length === 2 && arguments[0][0] === arguments[0][1]){
-			this.width = x;
-			this.height = y;
-		}else{
-			throw new Error("Введено невереное количество аргументов либо аргументы не равны!");
-		}
-		
-	},
-}
-
-let forRectangle = {
-	__proto__: shape,
-	_square : 0,
-	get square(){
-		return this.width * this.height;
-	},
-	set square ([x, y]){
-		if(arguments[0].length != 2){
+	height: 100,
+	check(x,y){
+		if(arguments.length != 2){
 			throw new Error("Введено невереное количество аргументов");
 		}
 		this.width = x;
 		this.height = y;
 	},
+};
+
+let forSquare = {
+	__proto__: shape,
+	get square(){
+		return this.width * this.height;
+	},
+	set square ([x, y]){
+		return this.check(x,y);
+	},
+}
+
+let forRectangle = {
+	__proto__: shape,
+	get square(){
+		return this.width * this.height;
+	},
+	set square ([x, y]){
+		return this.check(x,y);
+	},
 }
 
 let forCircle = {
 	__proto__: shape,
-	_square : 0,
 	get square(){
 		const radius = (this.width/2)^2;
 		return 2 * Math.PI * radius;
 	},
 	set square ([x, y]){
-		if(arguments[0].length === 2 && arguments[0][0] === arguments[0][1]){
-			this.width = x;
-			this.height = y;
-		}else{
-			throw new Error("Введено невереное количество аргументов либо аргументы не равны!");
-		}
-		
+		return this.check(x, y);
 	},
 }
 
