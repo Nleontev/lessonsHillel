@@ -114,21 +114,75 @@ class TodoApp {
 	constructor() {
 		this.todoList = [];
 	}
-	add(item) {}
-	remove(id) {}
-	clear() {}
+	add(item) {
+		if(item instanceof PinnedTodoItem){
+			this.todoList.forEach((item) => {
+				if(item.isPinned) item.isPinned = false;
+			})
+			this.todoList.unshift(item);
+			return
+		}
+
+		if(item instanceof ExpireTodoItem){
+			this.todoList.push(item);
+			setTimeout(() => {
+				this.todoList = this.todoList.filter((item) => item.canExpire !== true);
+			},5000)
+			return;
+		}
+
+		this.todoList.push(item);
+	}
+	remove(id) {
+		this.todoList = this.todoList.filter((item) => item.id !== id);
+	}
+	clear() {
+		this.todoList.length=0;
+	}
 }
 class TodoItem {
-	constructor({ name, id, createdDate }) {
-	  // ...
+	constructor( {name, id, createdDate} ) {
+		this.name = name;
+		this.id = id;
+		this.createdDate = createdDate;
+	}
+
+	static createId() {
+		return (Math.floor(Math.random()*1000))
+	}
+
+	updateName(name) {
+		this.name = name;
 	}
 }
-class PinnedTodoItem {
+class PinnedTodoItem extends TodoItem{
 	isPinned = true
 }
-class ExpireTodoItem {
-	canExpire = true
-	constructor(obj, delay) {
-	 // ...
+class ExpireTodoItem extends TodoItem{
+	canExpire = true;
+	constructor({name, id, createdDate}, delay) {
+		super({name, id, createdDate});
+		this.delay = delay;
 	}
 }
+
+let todo = new TodoApp();
+
+todo.add(new TodoItem({name: 'ben', id: TodoItem.createId(),createdDate: new Date()}));
+
+todo.add(new ExpireTodoItem({name: 'ben', id: TodoItem.createId(),createdDate: new Date()}));
+
+todo.add(new PinnedTodoItem({name: 'ben', id: TodoItem.createId(),createdDate: new Date()}));
+todo.add(new PinnedTodoItem({name: 'ben', id: TodoItem.createId(),createdDate: new Date()}));
+
+todo.todoList[0].updateName("Sam");
+
+console.log(todo.todoList);
+
+setTimeout(() => {
+	console.log(todo.todoList);
+}, 4000);
+
+setTimeout(() => {
+	console.log(todo.todoList);
+}, 6000);
