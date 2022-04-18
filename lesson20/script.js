@@ -81,7 +81,7 @@
 function support(number){
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({message: number})
+      resolve({message: 'Current iteration ' + number})
     }, 1000)
   })
 }
@@ -89,24 +89,20 @@ function support(number){
 function createAsyncList(iterations) {
   const iterationArr = [];
   let currentIteration = 1;
-  return new Promise((resolve) => {
-    return function fn(iter){
+  return function fn(iter){
+    return support(currentIteration).then((answer) => {
       if(currentIteration <= iterations){
-        setTimeout(() => {
-          iterationArr.push({message: 'Current iteration ' + currentIteration});
-        }, 3000)
+        iterationArr.push(answer);
         currentIteration++;
         return fn(iter);  
       }else{  
-        resolve(iterationArr);
+        return iterationArr;
       }
-    }(currentIteration)
-  })
+    })
+  }(currentIteration)
+  
 }
 
-createAsyncList(3).then((data) => {
-  
-  setTimeout(() => {
-    console.log(data);
-  }, 3000) // [{message: 'Current iteration 1'}, {message: 'Current iteration 2'}, {message: 'Current iteration 3'}]
+createAsyncList(10).then((data) => {
+  console.log(data) // [{message: 'Current iteration 1'}, {message: 'Current iteration 2'}, {message: 'Current iteration 3'}]
 })
