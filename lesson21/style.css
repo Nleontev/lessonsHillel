@@ -1,0 +1,68 @@
+.container{
+    margin: 0 auto;
+}
+
+.select-css { 
+    font-size: 16px; 
+    font-family: sans-serif; 
+    font-weight: 700; 
+    color: #444; 
+    line-height: 1.3; 
+    width: 10%; 
+    text-align: center;
+    box-sizing: border-box; 
+    margin: 0; 
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04); 
+    border-radius: .5em;
+    } 
+
+.wrapper{
+    position: relative;
+    text-align: center;
+}
+
+.form-part{
+    margin-bottom: 20px;
+}
+
+.custom-field {
+    font-size: 14px;
+    position: relative;
+}
+
+.custom-field input {
+    font-size: 16px; 
+    font-family: sans-serif; 
+    font-weight: 700; 
+    color: #444; 
+    text-align: center;
+    border: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #f2f2f2;
+    padding: 5px;
+    border-radius: 3px;
+    width: 10%;
+    font-size: 14px;
+}
+
+.one-label{
+    font-size: 16px; 
+    font-family: sans-serif; 
+    font-weight: 700; 
+    color: #444; 
+}
+
+#image{
+    width: 10%;
+    height: 10%;
+}
+
+#colorWell{
+    border-radius: 35%;
+   
+}
+
